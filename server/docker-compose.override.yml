@@ -1,6 +1,11 @@
 version: '3.4'
 
 services:
+   #tests:
+   # container_name: tests
+   # build:
+   #     context: ../tests
+   #     dockerfile: ../tests/dockerfile
    mongo:
     image: mongo
     restart: always
@@ -11,9 +16,8 @@ services:
    server:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_URLS=http://+:443
     ports:
-      - "80"
       - "44336:443"
     volumes:
       - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

@@ -20,25 +20,27 @@ namespace server.Controllers
             _shortener = shortener;
         }
         // GET api/<UrlShortenerController>/5
-        [HttpGet("{hash}")]
-        public string GetActualUrl(string hash)
+        [HttpGet("{slug}")]
+        public string GetActualUrl(string slug)
         {
-            return _shortener.GetActualUrl(hash);
-         
+            NotNullOrWhiteSpace(slug, nameof(slug));
+            return _shortener.GetActualUrl(slug);        
         }
 
         [HttpPost()]
-        public string GetHashFromUrl([FromBody] string url)
+        public string GetSlugForUrl([FromBody] string url)
         {
-            return _shortener.GetHashFromUrl(url);
+            NotNullOrWhiteSpace(url, nameof(url));
+            return _shortener.GetSlugForUrl(url);
         }
 
-        //[HttpPost]
-        //public string GetShortenedUrl([FromBody] string url)
-        //{
-        //    var shortenedUrl = "localhost.com/shortened";
-        //    return shortenedUrl;
-        //}
+        private static void NotNullOrWhiteSpace(string argument, string argumentName)
+        {
+            if (string.IsNullOrWhiteSpace(argument))
+            {
+                throw new ArgumentException($"'{argumentName}' cannot be null or empty");
+            }
+        }
 
     }
 }

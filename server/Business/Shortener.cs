@@ -14,58 +14,58 @@ namespace server.Business
         {
             _shortenerData = shortenerData;
         }
-        public string GetActualUrl(string hash)
+        public string GetActualUrl(string slug)
         {
-            var url = _shortenerData.GetActualUrlByHash(hash);
+            var url = _shortenerData.GetActualUrlBySlug(slug);
 
             if (url == default)
             {
                 return url;
             }
 
-            _shortenerData.UpdateLastAccessedDateForHash(hash);
+            _shortenerData.UpdateLastAccessedDateForSlug(slug);
 
             return url;
         } 
 
-        public string GetHashFromUrl(string url)
+        public string GetSlugForUrl(string url)
         {
             if (!IsValidUrl(url))
             {
                 return default;
             }
 
-            //If hash,url combinations already exist, provide the hash and update the 
+            //If slug,url combinations already exist, provide the slug and update the 
             //last accessed date
-            if (_shortenerData.GetHashByUrl(url, out var hash))
+            if (_shortenerData.GetSlugByUrl(url, out var slug))
             {
-                _shortenerData.UpdateLastAccessedDateForHash(hash);
+                _shortenerData.UpdateLastAccessedDateForSlug(slug);
 
-                return hash;
+                return slug;
             }
 
-            hash = GenerateHash();
+            slug = GenerateSlug();
 
-            _shortenerData.SaveShortenedUrl(hash, url);
+            _shortenerData.SaveShortenedUrl(slug, url);
 
-            return hash;
+            return slug;
         }
 
-        private string GenerateHash()
+        private string GenerateSlug()
         {
-            var hash = Guid.NewGuid().ToString("N").Substring(0, 7);
+            var slug = Guid.NewGuid().ToString("N").Substring(0, 7);
 
             var tries = 0;
 
-            //In case of collision, try three times to generate hash
-            while (_shortenerData.DoesHashExist(hash) && tries < 3)
+            //In case of collision, try three times to generate slug
+            while (_shortenerData.DoesSlugExist(slug) && tries < 3)
             {
-                hash = Guid.NewGuid().ToString("N").Substring(0, 7);
+                slug = Guid.NewGuid().ToString("N").Substring(0, 7);
                 tries++;
             }
 
 
-            return hash;
+            return slug;
         }
 
         private bool IsValidUrl(string url)

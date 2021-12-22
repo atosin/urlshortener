@@ -7,10 +7,10 @@ namespace server.Data
 {
     public interface IShortenerData
     { 
-        string GetActualUrlByHash(string hash);
-        bool GetHashByUrl(string url, out string hash);
-        string SaveShortenedUrl(string hash, string url);
-        void UpdateLastAccessedDateForHash(string hash);
-        bool DoesHashExist(string hash);
+        string GetActualUrlBySlug(string slug);
+        bool GetSlugByUrl(string url, out string slug);
+        string SaveShortenedUrl(string slug, string url);
+        void UpdateLastAccessedDateForSlug(string slug);
+        bool DoesSlugExist(string slug);
     }
 }

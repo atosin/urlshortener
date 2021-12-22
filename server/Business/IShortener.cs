@@ -7,7 +7,7 @@ namespace server.Business
 {
     public interface IShortener
     {
-        string GetHashFromUrl(string url);
-        string GetActualUrl(string hash);
+        string GetSlugForUrl(string url);
+        string GetActualUrl(string slug);
     }
 }

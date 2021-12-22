@@ -14,7 +14,7 @@ namespace server.Data
 
         private readonly ISettings _settings;
         private readonly Lazy<MongoClient> DbClient;
-        private const string CollectionName = "hash_to_url_maps";
+        private const string CollectionName = "slug_to_url_maps";
         private readonly IMongoCollection<UrlMaps> _urlMaps;
 
 
@@ -25,48 +25,48 @@ namespace server.Data
             _urlMaps = GetCollection<UrlMaps>(CollectionName);
 
         }
-        public string GetActualUrlByHash(string hash)
+        public string GetActualUrlBySlug(string slug)
         {
             var record = _urlMaps
-                .Find(x => x.Hash.ToLower() == hash.ToLower());
+                .Find(x => x.Slug.ToLower() == slug.ToLower());
             
             return record.FirstOrDefault()?.Url;
         }
 
-        public bool GetHashByUrl(string url, out string hash)
+        public bool GetSlugByUrl(string url, out string slug)
         {
             var record = _urlMaps
                 .Find(x => x.Url.ToLower() == url.ToLower());
 
-            hash = record.FirstOrDefault()?.Hash;
+            slug = record.FirstOrDefault()?.Slug;
 
-            return hash != default;
+            return slug != default;
         }
 
-        public string SaveShortenedUrl(string hash, string url)
+        public string SaveShortenedUrl(string slug, string url)
         {
             _urlMaps
                 .InsertOne(new UrlMaps
                 { 
-                    Hash = hash, Url = url, CreatedDate = DateTime.UtcNow 
+                    Slug = slug, Url = url, CreatedDate = DateTime.UtcNow 
                 });
 
-            return hash;
+            return slug;
         }
 
-        public bool DoesHashExist(string hash)
+        public bool DoesSlugExist(string slug)
         {
             return _urlMaps
-                .CountDocuments(x => x.Hash.ToLower() == hash.ToLower()) > 0;
+                .CountDocuments(x => x.Slug.ToLower() == slug.ToLower()) > 0;
         }
 
-        public void UpdateLastAccessedDateForHash(string hash)
+        public void UpdateLastAccessedDateForSlug(string slug)
         {
             var updateOptions = new UpdateOptions { IsUpsert = false };
             var updateDef = Builders<UrlMaps>.Update
                 .Set(nameof(UrlMaps.LastAccessedDate), DateTime.UtcNow);
 
-            _urlMaps.UpdateMany(x => x.Hash.ToLower() == hash.ToLower(), 
+            _urlMaps.UpdateMany(x => x.Slug.ToLower() == slug.ToLower(), 
                     updateDef, updateOptions);
         }
 

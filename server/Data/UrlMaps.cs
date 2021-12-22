@@ -10,7 +10,7 @@ namespace server.Data
     public class UrlMaps
     {
         public string Url { get; set; }
-        public string Hash { get; set; }
+        public string Slug { get; set; }
 
         public DateTime CreatedDate { get; set; }
         public DateTime? LastAccessedDate { get; set; }
