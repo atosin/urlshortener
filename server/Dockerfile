@@ -11,6 +11,8 @@ COPY ["server.csproj", "."]
 RUN dotnet restore "server.csproj"
 COPY . .
 WORKDIR "/src/"
+
+RUN dotnet test "server.csproj"
 RUN dotnet build "server.csproj" -c Release -o /app/build
 
 FROM build AS publish
