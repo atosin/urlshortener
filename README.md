@@ -15,4 +15,5 @@ Navigate to the server folder and run "docker-compose up". The container consist
 
 Navigate to "http://localhost:3000/" to launch the app.
 
-Server Unit Tests are run as part of the containerization build.
+Unit Tests:
+Server Unit Tests are run as part of the containerization build. This was done since it is more likely that the poeple will not have access to the C# environment. The client tests are separate and can be run by running "npm test" in the client directory.
