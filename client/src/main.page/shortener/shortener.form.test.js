@@ -128,7 +128,7 @@ it("Generate button is disabled if url is invalid", async () => {
 
   it("Error message is displayed if request fails", async () => {
 
-    axios.mockImplementation(() => Promise.reject());
+    axios.mockImplementation(() => Promise.reject('couldnt do it'));
 
     act(() => {
       render(<ShortenerForm />, container);
@@ -143,14 +143,15 @@ it("Generate button is disabled if url is invalid", async () => {
 
     await act(async () => {
         button.dispatchEvent(new MouseEvent("click", {bubbles : true}));
-      });
+    });
     
     await waitFor(() => {
-      const input = document.getElementById("shortened-url");
-
-      expect(input.value).toBe("");
       expect(container.textContent).toContain("Error while getting shortened link");
-    });
+
+      const input = document.getElementById("shortened-url");
+      expect(input.value).toBe("");
+      
+    } , {timeout: 500});
 
   });
 
@@ -176,7 +177,7 @@ it("Generate button is disabled if url is invalid", async () => {
     await waitFor(() => {
       const input = document.getElementById("shortened-url");
 
-      expect(input.value).toContain("xygdsety");
+      expect(input.value).toBe("http://localhost/xygdsety/");
     }, {timeout: 500});
 
   });
