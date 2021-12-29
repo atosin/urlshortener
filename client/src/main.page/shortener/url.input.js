@@ -26,9 +26,9 @@ const UrlInput = ( { onGenerateButtonClicked, onUrlTextChanged } ) => {
         <div className="form-group row my-4">
             <label className="col-sm-2 col-form-label">Enter Url</label>
             <div className="col-sm-8">
-                <input className="form-control" type="url" placeholder="Enter url (with a valid protocol) to be shortened here" onChange={onTextChange}></input>
+                <input id="url-text-input" className="form-control" type="url" placeholder="Enter url (with a valid protocol) to be shortened here" onChange={onTextChange}></input>
             </div>
-            <button type="button" className="btn btn-primary col-sm-2" disabled={!urlState.isValidUrl} onClick={onButtonClicked}>Generate</button>
+            <button id="generate-url" type="button" className="btn btn-primary col-sm-2" disabled={!urlState.isValidUrl} onClick={onButtonClicked}>Generate</button>
         </div>
     );
 }
